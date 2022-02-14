@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route url="/V1/shiphero/order/:id/invoice" method="POST">
+
+        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="invoice"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <route url="/V1/shiphero/order/:id/ship" method="POST">
+
+        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="ship"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <route url="/V1/shiphero/order/:id/complete" method="POST">
+
+        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="complete"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+</routes>
