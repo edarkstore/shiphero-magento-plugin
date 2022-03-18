@@ -25,12 +25,12 @@ class ShipheroProductObserver implements ObserverInterface
     {
         try{
             $url = $this->url;
-    
+
             $this->curl->setOption(CURLOPT_HEADER, false);
             $this->curl->setOption(CURLOPT_RETURNTRANSFER, true);
-    
+
             $this->curl->addHeader("Content-Type", "application/json");
-    
+            $this->logger->debug(print_r($data, true));
             $this->curl->post($url, $data);
         }catch(\Exception $e){
             $this->logger->error($e->getMessage());
@@ -44,13 +44,17 @@ class ShipheroProductObserver implements ObserverInterface
 
         if ($data["name"] == "catalog_product_save_after") {
             $product = $event->getProduct();
+            
         } else if ($data["name"] == "catalog_product_delete_after") {
+
             $product = $event->getProduct();
+
         } else {
             return;
         }
 
         $storeUrl = $product->getStore()->getBaseUrl();
+
         $data = array(
             "source" => "magento_2",
             "topic" => "product-save",
