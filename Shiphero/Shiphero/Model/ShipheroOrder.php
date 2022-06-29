@@ -1,6 +1,10 @@
 <?php
 namespace Shiphero\Shiphero\Model;
 use Shiphero\Shiphero\Api\ShipheroOrderInterface;
+use Magento\Sales\Model\Convert\Order;
+use Magento\Shipping\Model\ShipmentNotifier;
+use Shiphero\Shiphero\Helper\Data as DataHelper;
+use Psr\Log\LoggerInterface;
 
 class ShipheroOrder implements ShipheroOrderInterface
 {
@@ -19,27 +23,43 @@ class ShipheroOrder implements ShipheroOrderInterface
      */
     protected $_transaction;
 
+    protected $convertOrder;
+
+    protected $shipmentNotifier;
+
+    protected $dataHelper;
+
+    protected $logger;
+
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Framework\DB\Transaction $transaction,
-        \Magento\Sales\Model\Order\Shipment\TrackFactory $trackFactory
+        LoggerInterface $logger,
+        \Magento\Sales\Model\Order\Shipment\TrackFactory $trackFactory,
+        Order $convertOrder,
+        DataHelper $dataHelper,
+        
+        ShipmentNotifier $shipmentNotifier
     ) {
         $this->_orderRepository = $orderRepository;
-        $this->_invoiceService = $invoiceService;
-        $this->_transaction = $transaction;
-        $this->_trackFactory = $trackFactory;
-        $this->_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->_invoiceService  = $invoiceService;
+        $this->_transaction     = $transaction;
+        $this->_trackFactory    = $trackFactory;
+        $this->convertOrder     = $convertOrder;
+        $this->shipmentNotifier = $shipmentNotifier;
+        $this->dataHelper = $dataHelper;
+        $this->logger = $logger;
     }
 
     /**
-    * Generate an invoice for an order
-    *
-    * @api
-    * @param int Order id.
-    * @return string Response status.
-    */
+     * Generate an invoice for an order
+     *
+     * @api
+     * @param int Order id.
+     * @return string Response status.
+     */
     public function invoice($id) {
 
         try {
@@ -89,18 +109,18 @@ class ShipheroOrder implements ShipheroOrderInterface
     }
 
     /**
-    * Generate a shipment for an order
-    *
-    * @api
-    * @param int $id Order id.
-    * @param \Shiphero\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
-    * @param string $tracking_number
-    * @param string $shipping_carrier
-    * @param string $shipping_method
-    * @param int $notify_customer
-    * @param int $set_as_completed
-    * @return string Response status.
-    */
+     * Generate a shipment for an order
+     *
+     * @api
+     * @param int $id Order id.
+     * @param \Shiphero\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
+     * @param string $tracking_number
+     * @param string $shipping_carrier
+     * @param string $shipping_method
+     * @param int $notify_customer
+     * @param int $set_as_completed
+     * @return string Response status.
+     */
     public function ship($id, $items, $tracking_number, $shipping_carrier, $shipping_method, $notify_customer, $set_as_completed) {
 
         try {
@@ -111,8 +131,8 @@ class ShipheroOrder implements ShipheroOrderInterface
 
         if ($order->canShip()) {
 
-            $convertOrder = $this->_objectManager->create('Magento\Sales\Model\Convert\Order');
-            $shipment = $convertOrder->toShipment($order);
+            $convtOrder = $this->convertOrder;
+            $shipment = $convtOrder->toShipment($order);
 
             foreach ($order->getAllItems() AS $orderItem) {
 
@@ -134,7 +154,7 @@ class ShipheroOrder implements ShipheroOrderInterface
                     $qtyShipped = $itemData->getQty();
                 }
 
-                $shipmentItem = $convertOrder->itemToShipmentItem($orderItem)->setQty($qtyShipped);
+                $shipmentItem = $convtOrder->itemToShipmentItem($orderItem)->setQty($qtyShipped);
 
                 $shipment->addItem($shipmentItem);
             }
@@ -150,6 +170,7 @@ class ShipheroOrder implements ShipheroOrderInterface
                 );
 
                 $track = $this->_trackFactory->create()->addData($data);
+                $shipment->getExtensionAttributes()->setSourceCode($this->dataHelper->getWarehouseCode());
                 $shipment->addTrack($track)->save();
 
                 $shipment->getOrder()->setIsInProcess(true);
@@ -158,12 +179,13 @@ class ShipheroOrder implements ShipheroOrderInterface
                 $shipment->getOrder()->save();
 
                 if ($notify_customer == 1) {
-                    $this->_objectManager->create('Magento\Shipping\Model\ShipmentNotifier')->notify($shipment);
+                    $this->shipmentNotifier->notify($shipment);
                 }
 
                 $shipment->save();
 
             } catch (\Exception $e) {
+                $this->logger->debug("An error ocurred when shipping: ". $e->getMessage());
                 return "An error ocurred when shipping: ". $e->getMessage();
             }
 
@@ -178,12 +200,12 @@ class ShipheroOrder implements ShipheroOrderInterface
     }
 
     /**
-    * Set an order as completed
-    *
-    * @api
-    * @param int $id Order id.
-    * @return string Response status.
-    */
+     * Set an order as completed
+     *
+     * @api
+     * @param int $id Order id.
+     * @return string Response status.
+     */
     public function complete($id) {
 
         try {

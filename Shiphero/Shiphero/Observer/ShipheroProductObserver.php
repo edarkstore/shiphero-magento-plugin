@@ -3,28 +3,34 @@
 namespace Shiphero\Shiphero\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
-
+use Psr\Log\LoggerInterface;
+use Shiphero\Shiphero\Helper\Data as DataHelper;
 
 class ShipheroProductObserver implements ObserverInterface
 {
+
+    protected $logger;
+    protected $dataHelper;
+    protected $curl;
+
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResourceConnection $resource,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        LoggerInterface $logger,
         \Magento\Framework\HTTP\Client\Curl $curl,
-        \Psr\Log\LoggerInterface $logger
-    ) {
+        DataHelper $dataHelper
 
-        $this->host = "https://api-gateway.shiphero.com/v1/magento2/webhooks/products";
-        $this->url = $this->host;
+    ) {
+        $this->logger= $logger;
         $this->curl = $curl;
-        $this->logger = $logger;
+        $this->dataHelper = $dataHelper;
     }
 
     public function makeRequest($data)
     {
         try{
-            $url = $this->url;
+            $url = $this->dataHelper->getEndpointProduct();
 
             $this->curl->setOption(CURLOPT_HEADER, false);
             $this->curl->setOption(CURLOPT_RETURNTRANSFER, true);
@@ -39,33 +45,35 @@ class ShipheroProductObserver implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $event = $observer->getEvent();
-        $data = $event->getData();
+        if($this->dataHelper->isEnable()) {
+            $event = $observer->getEvent();
+            $data = $event->getData();
 
-        if ($data["name"] == "catalog_product_save_after") {
-            $product = $event->getProduct();
-            
-        } else if ($data["name"] == "catalog_product_delete_after") {
+            if ($data["name"] == "catalog_product_save_after") {
+                $product = $event->getProduct();
 
-            $product = $event->getProduct();
+            } else if ($data["name"] == "catalog_product_delete_after") {
 
-        } else {
-            return;
+                $product = $event->getProduct();
+
+            } else {
+                return;
+            }
+
+            $storeUrl = $product->getStore()->getBaseUrl();
+
+            $data = array(
+                "source" => "magento_2",
+                "topic" => "product-save",
+                "extension_version" => "1.3.0",
+                "body" => array(
+                    "product_sku" => $product->getSku(),
+                    "store_url" => $storeUrl,
+                ),
+            );
+
+            $this->makeRequest($data);
         }
-
-        $storeUrl = $product->getStore()->getBaseUrl();
-
-        $data = array(
-            "source" => "magento_2",
-            "topic" => "product-save",
-            "extension_version" => "1.3.0",
-            "body" => array(
-                "product_sku" => $product->getSku(),
-                "store_url" => $storeUrl,
-            ),
-        );
-
-        $this->makeRequest($data);
     }
 
 }

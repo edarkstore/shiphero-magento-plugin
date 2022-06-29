@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shiphero>
+            <general>
+                <enable>1</enable>
+                <endpoint_order>https://api-gateway.shiphero.com/v1/magento2/webhooks/orders</endpoint_order>
+                <endpoint_product>https://api-gateway.shiphero.com/v1/magento2/webhooks/products</endpoint_product>
+                <warehouse_code>default</warehouse_code>
+            </general>
+        </shiphero>
+    </default>
+</config>
