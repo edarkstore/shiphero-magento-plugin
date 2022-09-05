@@ -1,6 +1,6 @@
 <?php
 
-namespace Shiphero\Shiphero\Observer;
+namespace Edarkstore\Shiphero\Observer;
 
 class ShipheroApi
 {

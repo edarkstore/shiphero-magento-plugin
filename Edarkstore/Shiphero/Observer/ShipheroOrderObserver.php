@@ -1,11 +1,11 @@
 <?php
 
-namespace Shiphero\Shiphero\Observer;
+namespace Edarkstore\Shiphero\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
 use  Magento\Sales\Api\OrderRepositoryInterface;
-use Shiphero\Shiphero\Helper\Data as DataHelper;
+use Edarkstore\Shiphero\Helper\Data as DataHelper;
 
 class ShipheroOrderObserver implements ObserverInterface
 

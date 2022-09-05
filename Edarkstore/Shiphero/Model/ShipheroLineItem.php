@@ -1,6 +1,6 @@
 <?php
-namespace Shiphero\Shiphero\Model;
-use \Shiphero\Shiphero\Api\ShipheroLineItemInterface;
+namespace Edarkstore\Shiphero\Model;
+use \Edarkstore\Shiphero\Api\ShipheroLineItemInterface;
 
 /**
  * ShipheroLineItem Model

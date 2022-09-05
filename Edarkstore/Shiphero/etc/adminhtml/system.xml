@@ -6,7 +6,7 @@
         <section id="shiphero" translate="label" type="text" sortOrder="8888" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>Shiphero Module</label>
             <tab>shiphero</tab>
-            <resource>Shiphero_Shiphero::shiphero_config</resource>
+            <resource>Edarkstore_Shiphero::shiphero_config</resource>
             <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuration</label>
                 <field id="enable" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">

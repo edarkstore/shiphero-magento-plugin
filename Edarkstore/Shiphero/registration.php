@@ -6,6 +6,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Shiphero_Shiphero',
+    'Edarkstore_Shiphero',
     __DIR__
 );

@@ -3,7 +3,7 @@
 
     <route url="/V1/shiphero/order/:id/invoice" method="POST">
 
-        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="invoice"/>
+        <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="invoice"/>
         <resources>
             <resource ref="self"/>
         </resources>
@@ -11,7 +11,7 @@
 
     <route url="/V1/shiphero/order/:id/ship" method="POST">
 
-        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="ship"/>
+        <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="ship"/>
         <resources>
             <resource ref="self"/>
         </resources>
@@ -19,7 +19,7 @@
 
     <route url="/V1/shiphero/order/:id/complete" method="POST">
 
-        <service class="Shiphero\Shiphero\Api\ShipheroOrderInterface" method="complete"/>
+        <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="complete"/>
         <resources>
             <resource ref="self"/>
         </resources>

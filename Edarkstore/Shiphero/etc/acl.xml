@@ -4,8 +4,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Shiphero_Shiphero::Shiphero" title="Module Shiphero" sortOrder="100">
-                    <resource id="Shiphero_Shiphero::access_api" title="Access Api Shiphero"/>
+                <resource id="Edarkstore_Shiphero::Shiphero" title="Module Shiphero" sortOrder="100">
+                    <resource id="Edarkstore_Shiphero::access_api" title="Access Api Shiphero"/>
                 </resource>
             </resource>
         </resources>

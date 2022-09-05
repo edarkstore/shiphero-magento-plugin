@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <preference for="Shiphero\Shiphero\Api\ShipheroOrderInterface" type="Shiphero\Shiphero\Model\ShipheroOrder" />
-    <preference for="Shiphero\Shiphero\Api\ShipheroLineItemInterface" type="Shiphero\Shiphero\Model\ShipheroLineItem"/>
-
-</config>

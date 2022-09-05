@@ -1,9 +1,9 @@
 <?php
-namespace Shiphero\Shiphero\Model;
-use Shiphero\Shiphero\Api\ShipheroOrderInterface;
+namespace Edarkstore\Shiphero\Model;
+use Edarkstore\Shiphero\Api\ShipheroOrderInterface;
 use Magento\Sales\Model\Convert\Order;
 use Magento\Shipping\Model\ShipmentNotifier;
-use Shiphero\Shiphero\Helper\Data as DataHelper;
+use Edarkstore\Shiphero\Helper\Data as DataHelper;
 use Psr\Log\LoggerInterface;
 
 class ShipheroOrder implements ShipheroOrderInterface
@@ -113,7 +113,7 @@ class ShipheroOrder implements ShipheroOrderInterface
      *
      * @api
      * @param int $id Order id.
-     * @param \Shiphero\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
+     * @param \Edarkstore\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
      * @param string $tracking_number
      * @param string $shipping_carrier
      * @param string $shipping_method

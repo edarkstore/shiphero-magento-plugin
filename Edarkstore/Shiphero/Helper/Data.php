@@ -1,6 +1,6 @@
 <?php
 
-namespace Shiphero\Shiphero\Helper;
+namespace Edarkstore\Shiphero\Helper;
 
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;

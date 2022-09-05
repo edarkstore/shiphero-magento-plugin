@@ -1,5 +1,5 @@
 <?php
-namespace Shiphero\Shiphero\Api;
+namespace Edarkstore\Shiphero\Api;
 
 interface ShipheroOrderInterface
 {
@@ -17,7 +17,7 @@ interface ShipheroOrderInterface
     *
     * @api
     * @param int $id Order id.
-    * @param \Shiphero\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
+    * @param \Edarkstore\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
     * @param string $tracking_number
     * @param string $shipping_carrier
     * @param string $shipping_method

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Edarkstore\Shiphero\Api\ShipheroOrderInterface" type="Edarkstore\Shiphero\Model\ShipheroOrder" />
+    <preference for="Edarkstore\Shiphero\Api\ShipheroLineItemInterface" type="Edarkstore\Shiphero\Model\ShipheroLineItem"/>
+
+</config>

@@ -1,5 +1,5 @@
 <?php
-namespace Shiphero\Shiphero\Api;
+namespace Edarkstore\Shiphero\Api;
 
 /**
  * Interface for line items.
