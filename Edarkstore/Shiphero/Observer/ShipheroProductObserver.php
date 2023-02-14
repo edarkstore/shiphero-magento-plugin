@@ -63,16 +63,11 @@ class ShipheroProductObserver implements ObserverInterface
             $storeUrl = $product->getStore()->getBaseUrl();
 
             $data = array(
-                "source" => "magento_2",
-                "topic" => "product-save",
-                "extension_version" => "1.3.0",
-                "body" => array(
-                    "product_sku" => $product->getSku(),
-                    "store_url" => $storeUrl,
-                ),
+                "product_sku" => $product->getSku(),
+                "store_url" => $storeUrl
             );
 
-            $this->makeRequest($data);
+            $this->makeRequest(json_encode($data));
         }
     }
 

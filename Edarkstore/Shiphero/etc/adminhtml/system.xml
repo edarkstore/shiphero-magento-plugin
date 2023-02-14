@@ -17,7 +17,7 @@
                     <label>Endpoint Order</label>
                 </field>
                 <field id="endpoint_product" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Endpoint Order</label>
+                    <label>Endpoint Product</label>
                 </field>
                 <field id="warehouse_code" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Warehouse Code</label>

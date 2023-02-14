@@ -74,18 +74,13 @@ class ShipheroOrderObserver implements ObserverInterface
                 return;
             }
             $data = array(
-                "source" => "magento_2",
-                "topic" => "order-save",
-                "extension_version" => "1.3.0",
-                "body" => array(
-                    "order_id" => $orderId,
-                    "store_url" => $storeUrl,
-                ),
+                "order_id" => $orderId,
+                "store_url" => $storeUrl
             );
             $this->logger->debug('request');
             $this->logger->debug(print_r($data, true));
 
-            $this->makeRequest($data);
+            $this->makeRequest(json_encode($data));
         }
     }
 }
