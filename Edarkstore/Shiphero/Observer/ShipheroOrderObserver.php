@@ -65,10 +65,42 @@ class ShipheroOrderObserver implements ObserverInterface
                 }
                 $orderId = $order->getId();
                 $storeUrl = $order->getStore()->getBaseUrl();
-            } else if ($data["name"] == "sales_model_service_quote_submit_success") {
-                $order = $data["order"];
+            } elseif ($data["name"] == "sales_model_service_quote_submit_success" ||
+                $data["name"] == "order_cancel_after") {
+                try {
+                    $order = $data["order"];
+                    $orderId = $order->getId();
+                    $storeUrl = $order->getStore()->getBaseUrl();
+                } catch (\Exception $e) {
+                    $this->logger->debug("Can't fin order with id: ". $event['order_id']);
+                    $this->logger->debug(print_r($e->getMessage(), true));
+                    return;
+                }
+            }  elseif ($data["name"] == "sales_order_invoice_save_after") {
+                $invoice = $data["invoice"];
+                $orderId = $invoice->getOrderId();
+                try {
+                    $order = $this->orderRepository->get($orderId);
+                    $this->logger->debug(json_encode($order->getData()));
+                } catch (\Exception $e) {
+                    $this->logger->debug("Can't fin order with id: ". $event['order_id']);
+                    $this->logger->debug(print_r($e->getMessage(), true));
+                    return;
+                }
                 $orderId = $order->getId();
                 $storeUrl = $order->getStore()->getBaseUrl();
+                $this->logger->debug('sales_order_invoice_save_after: '. json_encode($data));
+            } elseif ($data["name"] == "checkout_onepage_controller_success_action") {
+                try {
+                    $order = $data["order"];
+                    $orderId = $order->getId();
+                    $storeUrl = $order->getStore()->getBaseUrl();
+                } catch (\Exception $e) {
+                    $this->logger->debug("Can't fin order with id: ". $event['order_id']);
+                    $this->logger->debug(print_r($e->getMessage(), true));
+                    return;
+                }
+                $this->logger->debug('checkout_onepage_controller_success_action: '. json_encode($orderId));
             } else {
                 $this->logger->debug("Data name: ". $data["name"]);
                 return;

@@ -11,6 +11,18 @@
     </event>
 
 
+    <event name="sales_order_invoice_save_after">
+        <observer name="shiphero_sales_order_invoice_save_after" instance="Edarkstore\Shiphero\Observer\ShipheroOrderObserver"/>
+    </event>
+
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="shiphero_checkout_onepage_controller_success_action" instance="Edarkstore\Shiphero\Observer\ShipheroOrderObserver"/>
+    </event>
+
+    <event name="order_cancel_after">
+        <observer name="shiphero_order_cancel_after" instance="Edarkstore\Shiphero\Observer\ShipheroOrderObserver"/>
+    </event>
+    
     <event name="sales_model_service_quote_submit_success">
         <observer name="shiphero_sales_model_service_quote_submit_success" instance="Edarkstore\Shiphero\Observer\ShipheroOrderObserver"/>
     </event>
