@@ -115,13 +115,14 @@ class ShipheroOrder implements ShipheroOrderInterface
      * @param int $id Order id.
      * @param \Edarkstore\Shiphero\Api\ShipheroLineItemInterface[] $items Line items.
      * @param string $tracking_number
+     * @param string $tracking_url
      * @param string $shipping_carrier
      * @param string $shipping_method
      * @param int $notify_customer
      * @param int $set_as_completed
      * @return string Response status.
      */
-    public function ship($id, $items, $tracking_number, $shipping_carrier, $shipping_method, $notify_customer, $set_as_completed) {
+    public function ship($id, $items, $tracking_number, $tracking_url, $shipping_carrier, $shipping_method, $notify_customer, $set_as_completed) {
 
         try {
             $order = $this->_orderRepository->get($id);
@@ -167,6 +168,7 @@ class ShipheroOrder implements ShipheroOrderInterface
                     'carrier_code' => $shipping_carrier,
                     'title' => $shipping_method,
                     'number' => $tracking_number,
+                    'url' => $tracking_url,
                 );
 
                 $track = $this->_trackFactory->create()->addData($data);
