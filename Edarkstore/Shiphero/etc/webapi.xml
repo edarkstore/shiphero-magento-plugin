@@ -5,7 +5,7 @@
 
         <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="invoice"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Edarkstore_Shiphero::access_api"/>
         </resources>
     </route>
 
@@ -13,7 +13,7 @@
 
         <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="ship"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Edarkstore_Shiphero::access_api"/>
         </resources>
     </route>
 
@@ -21,7 +21,7 @@
 
         <service class="Edarkstore\Shiphero\Api\ShipheroOrderInterface" method="complete"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="Edarkstore_Shiphero::access_api"/>
         </resources>
     </route>
 </routes>
