@@ -2,10 +2,9 @@
 
 ## Manual Installation 
 ##### In Magento 2:
-1. Add the plugin in the `app/code` directory. If the `code/` folder does not exist, it must be created in the `app/` directory.  
-2. In the root directory, run command `php bin/magento module:enable Edarkstore_Shiphero`
-3. To check if the plugin is enabled, run the command `php bin/magento module:status`
-   
+1. Agregar el modulo en el directorio `app/code`. Si la carpeta `code/`no existe, debe ser creada en el directorio `app/`.  
+2. En la raíz del proyecto, correr el comando `php bin/magento module:enable Edarkstore_Shiphero`
+3. Para chequear que el modulo quedó habilitado, correr el comando   `php bin/magento module:status`
 ----
 ## Documentación
 ### Observers
@@ -21,6 +20,8 @@ Cuando se confirma un pedido en el sitio o se modifica desde el administrador de
 Los observers utilizados son:
 - `admin_sales_order_address_update`
 - `sales_model_service_quote_submit_success`
+- `order_cancel_after`
+- `sales_order_invoice_save_after`
 ![](.README/create_order.png)
 ![](.README/update_order.png)
 
